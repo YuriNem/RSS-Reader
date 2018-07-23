@@ -1,7 +1,8 @@
 install:
 	npm install
-start:
-	npm run babel-node -- src/bin/rss-reader.js
+build:
+	rm -rf dist
+	NODE_ENV=production npm run webpack
 publish:
 	npm publish
 lint:

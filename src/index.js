@@ -1,5 +1,1 @@
-const output = () => {
-  console.log('RSS Reader');
-};
-
-export default output;
+import 'bootstrap/dist/css/bootstrap.min.css';

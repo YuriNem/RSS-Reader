@@ -3,8 +3,7 @@
 language: node_js
 
 node_js:
-  - node
+  - stable
 
 script:
   - make lint
-  

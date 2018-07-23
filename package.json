@@ -1,19 +1,15 @@
 {
   "name": "rssreaderyn",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "description": "Hexlet project 3",
-  "main": "dist/index.js",
-  "bin": {
-    "rss-reader": "dist/bin/rss-reader.js"
-  },
+  "main": "dist/bundle.js",
   "files": [
     "dist"
   ],
   "scripts": {
     "babel-node": "babel-node",
-    "build": "NODE_ENV=production babel src --out-dir dist --source-maps inline",
-    "prepublishOnly": "npm run build",
-    "eslint": "eslint"
+    "eslint": "eslint",
+    "webpack": "webpack"
   },
   "repository": {
     "type": "git",
@@ -28,16 +24,22 @@
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
+    "babel-eslint": "^8.2.6",
+    "babel-loader": "^7.1.5",
     "babel-preset-env": "^1.7.0",
     "babel-preset-stage-0": "^6.24.1",
-    "babel-eslint": "^8.2.6",
+    "css-loader": "^1.0.0",
     "eslint": "^5.2.0",
     "eslint-config-airbnb-base": "^13.0.0",
     "eslint-plugin-import": "^2.13.0",
+    "html-webpack-plugin": "^3.2.0",
+    "style-loader": "^0.21.0",
     "webpack": "^4.16.1",
     "webpack-cli": "^3.1.0"
   },
   "dependencies": {
-    "bootstrap": "^4.1.2"
+    "bootstrap": "^4.1.2",
+    "jquery": "^3.3.1",
+    "popper.js": "^1.14.3"
   }
 }
