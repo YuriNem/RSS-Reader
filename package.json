@@ -1,6 +1,6 @@
 {
   "name": "rssreaderyn",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Hexlet project 3",
   "main": "dist/index.js",
   "bin": {
@@ -12,7 +12,8 @@
   "scripts": {
     "babel-node": "babel-node",
     "build": "NODE_ENV=production babel src --out-dir dist --source-maps inline",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "eslint": "eslint"
   },
   "repository": {
     "type": "git",
@@ -29,6 +30,10 @@
     "babel-core": "^6.26.3",
     "babel-preset-env": "^1.7.0",
     "babel-preset-stage-0": "^6.24.1",
+    "babel-eslint": "^8.2.6",
+    "eslint": "^5.2.0",
+    "eslint-config-airbnb-base": "^13.0.0",
+    "eslint-plugin-import": "^2.13.0",
     "webpack": "^4.16.1",
     "webpack-cli": "^3.1.0"
   },

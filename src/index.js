@@ -1,5 +1,5 @@
 const output = () => {
-    console.log('RSS Reader');
-}
+  console.log('RSS Reader');
+};
 
 export default output;
