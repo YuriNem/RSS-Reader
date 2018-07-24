@@ -1,6 +1,6 @@
 {
   "name": "rssreaderyn",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Hexlet project 3",
   "main": "dist/main.js",
   "files": [
