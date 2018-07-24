@@ -1,6 +1,6 @@
 {
   "name": "rssreaderyn",
-  "version": "0.0.7",
+  "version": "0.0.9",
   "description": "Hexlet project 3",
   "main": "dist/main.js",
   "files": [
@@ -38,8 +38,10 @@
     "webpack-cli": "^3.1.0"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "bootstrap": "^4.1.2",
     "jquery": "^3.3.1",
+    "melanke-watchjs": "^1.4.3",
     "popper.js": "^1.14.3",
     "validator": "^10.4.0"
   }
