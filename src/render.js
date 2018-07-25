@@ -1,3 +1,25 @@
+export const renderError = (errorName) => {
+  if (errorName) {
+    if (document.querySelector('.error')) {
+      const errorElement = document.querySelector('.error');
+      errorElement.remove();
+    }
+    const jumbotron = document.querySelector('.jumbotron');
+    const ul = document.createElement('ul');
+    ul.classList.add('error');
+    ul.classList.add('list-group');
+    jumbotron.append(ul);
+    const li = document.createElement('li');
+    li.classList.add('list-group-item');
+    li.classList.add('list-group-item-danger');
+    li.textContent = errorName;
+    ul.append(li);
+  } else if (document.querySelector('.error')) {
+    const errorElement = document.querySelector('.error');
+    errorElement.remove();
+  }
+};
+
 export const renderUlStreams = () => {
   if (document.querySelector('.streams')) {
     const oldUlStreams = document.querySelector('.streams');
@@ -10,7 +32,7 @@ export const renderUlStreams = () => {
   main.append(ul);
 };
 
-export const renderLiStream = (titleStream, description) => {
+export const renderLiStream = (titleStream, descriptionStream) => {
   const ul = document.querySelector('.streams');
   const li = document.createElement('li');
   li.classList.add('list-group-item');
@@ -20,7 +42,7 @@ export const renderLiStream = (titleStream, description) => {
   h3.textContent = titleStream;
   li.append(h3);
   const p = document.createElement('p');
-  p.textContent = description;
+  p.textContent = descriptionStream;
   li.append(p);
 };
 
@@ -36,13 +58,20 @@ export const renderUlArticles = () => {
   main.append(ul);
 };
 
-export const renderLiArticle = (titleArticle, link) => {
+export const renderLiArticle = (titleArticle, linkArticle) => {
   const ul = document.querySelector('.articles');
   const li = document.createElement('li');
   li.classList.add('list-group-item');
   ul.append(li);
   const a = document.createElement('a');
   a.textContent = titleArticle;
-  a.href = link;
+  a.href = linkArticle;
   li.append(a);
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.classList.add('btn');
+  button.setAttribute('data-toggle', 'modal');
+  button.setAttribute('data-target', '#exampleModal');
+  button.textContent = 'Open';
+  li.append(button);
 };
