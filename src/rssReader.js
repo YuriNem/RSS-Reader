@@ -1,6 +1,7 @@
 import { watch } from 'melanke-watchjs';
 import { isURL } from 'validator';
 import axios from 'axios';
+import $ from 'jquery';
 
 import parser from './parser';
 
@@ -12,17 +13,16 @@ import {
   renderLiArticle,
 } from './render';
 
-
 const input = document.querySelector('input');
-const button = document.querySelector('.add');
+const add = document.querySelector('.add');
 const form = document.querySelector('form');
 
 const state = {
   input: '',
   valid: 'empty',
   urls: [],
-  error: '',
   data: [],
+  error: '',
 };
 
 const inputStream = () => {
@@ -46,15 +46,15 @@ watch(state, 'valid', () => {
   if (state.valid === 'empty') {
     input.classList.remove('is-valid');
     input.classList.remove('is-invalid');
-    button.disabled = true;
+    add.disabled = true;
   } else if (!state.valid) {
     input.classList.remove('is-valid');
     input.classList.add('is-invalid');
-    button.disabled = true;
+    add.disabled = true;
   } else {
     input.classList.remove('is-invalid');
     input.classList.add('is-valid');
-    button.disabled = false;
+    add.disabled = false;
   }
 });
 
@@ -83,15 +83,22 @@ watch(state, 'error', () => {
   renderError(state.error);
 });
 
+const openModal = () => {
+  $('#exampleModal').on('show.bs.modal', (event) => {
+    $('#exampleModal').find('.modal-body').text($(event.relatedTarget).data('description'));
+  });
+};
+
 watch(state, 'data', () => {
   renderUlStreams();
   renderUlArticles();
   state.data.forEach(({ titleStream, descriptionStream, itemsStream }) => {
     renderLiStream(titleStream, descriptionStream);
-    itemsStream.forEach(({ titleArticle, linkArticle }) => {
-      renderLiArticle(titleArticle, linkArticle);
+    itemsStream.forEach(({ titleArticle, linkArticle, descriptionArticle }) => {
+      renderLiArticle(titleArticle, linkArticle, descriptionArticle);
     });
   });
+  openModal();
 });
 
 const rssReader = () => {

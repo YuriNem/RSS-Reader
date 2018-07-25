@@ -58,7 +58,7 @@ export const renderUlArticles = () => {
   main.append(ul);
 };
 
-export const renderLiArticle = (titleArticle, linkArticle) => {
+export const renderLiArticle = (titleArticle, linkArticle, descriptionArticle) => {
   const ul = document.querySelector('.articles');
   const li = document.createElement('li');
   li.classList.add('list-group-item');
@@ -69,9 +69,12 @@ export const renderLiArticle = (titleArticle, linkArticle) => {
   li.append(a);
   const button = document.createElement('button');
   button.type = 'button';
+  button.classList.add('.open');
   button.classList.add('btn');
+  button.classList.add('float-right');
   button.setAttribute('data-toggle', 'modal');
   button.setAttribute('data-target', '#exampleModal');
+  button.setAttribute('data-description', descriptionArticle);
   button.textContent = 'Open';
   li.append(button);
 };
