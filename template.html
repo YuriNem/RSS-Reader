@@ -5,17 +5,17 @@
     <title>RSS Reader</title>
 </head>
 <body>
-    <main class="container">
-        <div class="jumbotron">
-            <form>
+    <main class="container" id="main">
+        <div class="jumbotron" id="jumbotron">
+            <form id="form">
                 <h1>RSS Reader</h1>
-                <input type="text" class="form-control" placeholder="RSS Stream">
+                <input type="text" class="form-control" placeholder="RSS Stream" id="input">
                 <br>
-                <button type="submit" class="btn btn-primary add" disabled>Add</button>
+                <button type="submit" class="btn btn-primary" id="add" disabled>Add</button>
             </form>
             <br>
         </div>
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
               <div class="modal-content">
                 <div class="modal-header">

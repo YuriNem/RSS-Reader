@@ -3,19 +3,15 @@ import { isURL } from 'validator';
 import axios from 'axios';
 import $ from 'jquery';
 
-import parser from './parser';
-
 import {
+  renderInput,
   renderError,
   renderUlStreams,
   renderUlArticles,
   renderLiStream,
   renderLiArticle,
 } from './render';
-
-const input = document.querySelector('input');
-const add = document.querySelector('.add');
-const form = document.querySelector('form');
+import parseXmlToStream from './parseXmlToStream';
 
 const state = {
   input: '',
@@ -26,6 +22,7 @@ const state = {
 };
 
 const inputStream = () => {
+  const input = document.getElementById('input');
   input.addEventListener('input', () => {
     state.input = input.value;
   });
@@ -33,47 +30,59 @@ const inputStream = () => {
 
 watch(state, 'input', () => {
   if (state.input === '') {
-    input.value = '';
     state.valid = 'empty';
   } else if (!isURL(state.input) || state.urls.includes(state.input)) {
-    state.valid = false;
+    state.valid = 'invalid';
   } else {
-    state.valid = true;
+    state.valid = 'valid';
   }
 });
 
 watch(state, 'valid', () => {
-  if (state.valid === 'empty') {
-    input.classList.remove('is-valid');
-    input.classList.remove('is-invalid');
-    add.disabled = true;
-  } else if (!state.valid) {
-    input.classList.remove('is-valid');
-    input.classList.add('is-invalid');
-    add.disabled = true;
-  } else {
-    input.classList.remove('is-invalid');
-    input.classList.add('is-valid');
-    add.disabled = false;
-  }
+  renderInput(state.valid);
 });
+
+const getDiff = (items, newItems) => newItems.filter(newItem => items.reduce((acc, item) => (
+  newItem.titleArticle === item.titleArticle ? false : acc), true));
 
 const getStream = (urlStream) => {
   axios.get(`https://cors-anywhere.herokuapp.com/${urlStream}`).then((response) => {
-    const data = parser(response);
+    const data = parseXmlToStream(response);
     state.error = '';
     state.urls = [...state.urls, state.input];
     state.input = '';
     state.data = [...state.data, data];
+    return { url: urlStream, items: data.itemsStream };
+  }).then(({ url, items }) => {
+    const stream = {
+      url,
+      items,
+    };
+    const updateItems = () => {
+      axios.get(`https://cors-anywhere.herokuapp.com/${stream.url}`).then((response) => {
+        const { itemsStream: newItems } = parseXmlToStream(response);
+        const diffItems = getDiff(stream.items, newItems);
+        diffItems.forEach(({ titleArticle, linkArticle, descriptionArticle }) => {
+          renderLiArticle(titleArticle, linkArticle, descriptionArticle);
+        });
+        stream.items = [...stream.items, ...diffItems];
+      }).catch((error) => {
+        state.error = error;
+      });
+    };
+    setInterval(updateItems, 5000);
   }).catch((error) => {
     state.error = error;
+    state.valid = 'valid';
   });
 };
 
 const submitStream = () => {
+  const form = document.getElementById('form');
   form.addEventListener('submit', (event) => {
     event.preventDefault();
-    if (state.valid === true) {
+    if (state.valid === 'valid') {
+      state.valid = 'loading';
       getStream(state.input);
     }
   });
@@ -84,8 +93,8 @@ watch(state, 'error', () => {
 });
 
 const openModal = () => {
-  $('#exampleModal').on('show.bs.modal', (event) => {
-    $('#exampleModal').find('.modal-body').text($(event.relatedTarget).data('description'));
+  $('#modal').on('show.bs.modal', (event) => {
+    $('#modal').find('.modal-body').text($(event.relatedTarget).data('description'));
   });
 };
 
