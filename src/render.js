@@ -2,7 +2,7 @@ import $ from 'jquery';
 
 export const renderInput = (valid) => {
   const input = document.getElementById('input');
-  const buttonAdd = document.getElementById('add');
+  const buttonAdd = document.getElementById('btn-add');
   if (valid === 'empty') {
     input.value = '';
     input.classList.remove('is-valid');
@@ -42,33 +42,33 @@ export const renderError = (errorName) => {
     li.classList.add('list-group-item');
     li.classList.add('list-group-item-danger');
     li.textContent = errorName;
-    ul.append(li);
+    ul.prepend(li);
   }
 };
 
-export const renderUlStreams = () => {
-  if (document.getElementById('streams')) {
-    const oldUlStreams = document.getElementById('streams');
-    oldUlStreams.remove();
+export const renderUlFeeds = () => {
+  if (document.getElementById('feeds')) {
+    const oldUlFeeds = document.getElementById('feeds');
+    oldUlFeeds.remove();
   }
   const main = document.getElementById('main');
   const ul = document.createElement('ul');
-  ul.id = 'streams';
+  ul.id = 'feeds';
   ul.classList.add('list-group');
   main.append(ul);
 };
 
-export const renderLiStream = (titleStream, descriptionStream) => {
-  const ul = document.getElementById('streams');
+export const renderLiFeed = (titleFeed, descriptionFeed) => {
+  const ul = document.getElementById('feeds');
   const li = document.createElement('li');
   li.classList.add('list-group-item');
   li.classList.add('list-group-item-primary');
-  ul.append(li);
+  ul.prepend(li);
   const h3 = document.createElement('h3');
-  h3.textContent = titleStream;
+  h3.textContent = titleFeed;
   li.append(h3);
   const p = document.createElement('p');
-  p.textContent = descriptionStream;
+  p.textContent = descriptionFeed;
   li.append(p);
 };
 
