@@ -1,3 +1,5 @@
+import $ from 'jquery';
+
 export const renderInput = (valid) => {
   const input = document.getElementById('input');
   const buttonAdd = document.getElementById('add');
@@ -100,4 +102,26 @@ export const renderLiArticle = (titleArticle, linkArticle, descriptionArticle) =
   button.setAttribute('data-description', descriptionArticle);
   button.textContent = 'Open';
   li.append(button);
+};
+
+export const renderModal = () => {
+  const forModal = document.getElementById('for-modal');
+  forModal.innerHTML = `
+  <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" id="modal">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Description</h5>
+        </div>
+        <div class="modal-body"></div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  `;
+  $('#modal').on('show.bs.modal', (event) => {
+    $('#modal').find('.modal-body').text($(event.relatedTarget).data('description'));
+  });
 };

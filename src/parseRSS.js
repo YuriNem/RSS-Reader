@@ -1,4 +1,4 @@
-const parseXmlToStream = (xmlString) => {
+const parseRSS = (xmlString) => {
   const parserDOM = new DOMParser();
   const documentData = parserDOM.parseFromString(xmlString.data, 'application/xml');
   const titleStream = documentData.querySelector('title').textContent;
@@ -13,4 +13,4 @@ const parseXmlToStream = (xmlString) => {
   return { titleStream, descriptionStream, itemsStream };
 };
 
-export default parseXmlToStream;
+export default parseRSS;
