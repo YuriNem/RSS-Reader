@@ -16,7 +16,6 @@ const state = {
   valid: 'empty',
   urls: [],
   feeds: [],
-  items: [],
   error: '',
 };
 
@@ -48,13 +47,6 @@ watch(state, 'feeds', () => {
     });
   });
   renderModal();
-});
-
-watch(state, 'items', () => {
-  const newItems = state.items[state.items.length - 1];
-  newItems.forEach(({ titleArticle, linkArticle, descriptionArticle }) => {
-    renderLiArticle(titleArticle, linkArticle, descriptionArticle);
-  });
 });
 
 export default state;

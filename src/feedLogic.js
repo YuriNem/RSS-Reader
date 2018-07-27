@@ -15,16 +15,16 @@ const getDiff = (items, newItems) => newItems.filter(
     newItem.titleArticle === item.titleArticle ? false : acc), true),
 );
 
-const updateItems = (url, items) => {
+const updateItems = (url, index) => {
   axios.get(`https://cors-anywhere.herokuapp.com/${url}`).then((response) => {
     const { itemsFeed: newItems } = parseRSS(response);
+    const items = state.feeds[index].itemsFeed;
     const diffItems = getDiff(items, newItems);
     if (diffItems.length) {
-      state.items = [...state.items, diffItems];
+      state.feeds[index].itemsFeed = [...items, ...diffItems];
     }
-    return [...items, ...diffItems];
-  }).then((updatedItems) => {
-    setTimeout(updateItems, 5000, url, updatedItems);
+  }).then(() => {
+    setTimeout(updateItems, 5000, url, index);
   }).catch((error) => {
     state.error = error;
   });
@@ -37,9 +37,9 @@ const getFeed = (urlFeed) => {
     state.urls = [...state.urls, urlFeed];
     state.feeds = [...state.feeds, feed];
     state.input = '';
-    return { url: urlFeed, items: feed.itemsFeed };
-  }).then(({ url, items }) => {
-    setTimeout(updateItems, 5000, url, items);
+    return { url: urlFeed, index: state.feeds.length - 1 };
+  }).then(({ url, index }) => {
+    setTimeout(updateItems, 5000, url, index);
   }).catch((error) => {
     state.error = error;
     state.valid = 'valid';
