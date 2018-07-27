@@ -1,6 +1,6 @@
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import rssReader from './rssReader';
+import runRSSReader from './runRSSReader';
 
-rssReader();
+runRSSReader();
