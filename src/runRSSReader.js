@@ -1,12 +1,12 @@
 import State from './State';
 import watchState from './watchState';
-import { inputFeed, submitFeed } from './feedLogic';
+import { handleFeedInput, handleFeedForm } from './feedLogic';
 
 const runRSSReader = () => {
   const state = new State();
   watchState(state);
-  inputFeed(state);
-  submitFeed(state);
+  handleFeedInput(state);
+  handleFeedForm(state);
 };
 
 export default runRSSReader;

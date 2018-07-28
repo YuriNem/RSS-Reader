@@ -3,43 +3,43 @@ import { isURL } from 'validator';
 
 import {
   renderInput,
-  renderError,
   renderUlFeeds,
-  renderUlArticles,
+  renderUlItems,
   renderLiFeed,
-  renderLiArticle,
+  renderLiItem,
   renderModal,
+  renderElementError,
 } from './render';
 
 const watchState = (state) => {
   watch(state, 'input', () => {
     if (state.input === '') {
-      state.updateValid('empty');
+      state.setValidationState('empty');
     } else if (!isURL(state.input) || state.urls.includes(state.input)) {
-      state.updateValid('invalid');
+      state.setValidationState('invalid');
     } else {
-      state.updateValid('valid');
+      state.setValidationState('valid');
     }
   });
 
-  watch(state, 'valid', () => {
-    renderInput(state.valid);
-  });
-
-  watch(state, 'error', () => {
-    renderError(state.error);
+  watch(state, 'validationState', () => {
+    renderInput(state.validationState);
   });
 
   watch(state, 'feeds', () => {
     renderUlFeeds();
-    renderUlArticles();
+    renderUlItems();
     state.feeds.forEach(({ titleFeed, descriptionFeed, itemsFeed }) => {
       renderLiFeed(titleFeed, descriptionFeed);
-      itemsFeed.forEach(({ titleArticle, linkArticle, descriptionArticle }) => {
-        renderLiArticle(titleArticle, linkArticle, descriptionArticle);
+      itemsFeed.forEach(({ titleItem, linkItem, descriptionItem }) => {
+        renderLiItem(titleItem, linkItem, descriptionItem);
       });
     });
     renderModal();
+  });
+
+  watch(state, 'error', () => {
+    renderElementError(state.error);
   });
 };
 

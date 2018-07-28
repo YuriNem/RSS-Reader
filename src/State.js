@@ -1,33 +1,33 @@
 class State {
   constructor() {
     this.input = '';
-    this.valid = 'empty';
+    this.validationState = 'empty';
     this.urls = [];
     this.feeds = [];
     this.error = '';
   }
 
-  updateInput(input) {
+  setInput(input) {
     this.input = input;
   }
 
-  updateValid(valid) {
-    this.valid = valid;
+  setValidationState(validationState) {
+    this.validationState = validationState;
   }
 
-  updateUrls(url) {
+  addUrl(url) {
     this.urls = [...this.urls, url];
   }
 
-  updateFeeds(feed) {
+  addFeed(feed) {
     this.feeds = [...this.feeds, feed];
   }
 
-  updateItems(index, items) {
+  addItems(index, items) {
     this.feeds[index].itemsFeed = [...this.feeds[index].itemsFeed, ...items];
   }
 
-  updateError(error) {
+  setError(error) {
     this.error = error;
   }
 }

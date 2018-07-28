@@ -2,56 +2,56 @@ import axios from 'axios';
 
 import parseRSS from './parseRSS';
 
-export const inputFeed = (state) => {
+export const handleFeedInput = (state) => {
   const input = document.getElementById('input');
   input.addEventListener('input', () => {
-    state.updateInput(input.value);
+    state.setInput(input.value);
   });
 };
 
 const getDiff = (items, newItems) => newItems.filter(
   newItem => items.reduce((acc, item) => (
-    newItem.titleArticle === item.titleArticle ? false : acc), true),
+    newItem.titleItem === item.titleItem ? false : acc), true),
 );
 
-const updateItems = (url, state) => {
-  axios.get(`https://cors-anywhere.herokuapp.com/${url}`).then((response) => {
+const updateItems = (urlItems, state) => {
+  axios.get(`https://cors-anywhere.herokuapp.com/${urlItems}`).then((response) => {
     const { itemsFeed: newItems } = parseRSS(response);
-    const index = state.urls.indexOf(url);
+    const index = state.urls.indexOf(urlItems);
     const items = state.feeds[index].itemsFeed;
     const diffItems = getDiff(items, newItems);
     if (diffItems.length) {
-      state.updateItems(index, diffItems);
+      state.addItems(index, diffItems);
     }
   }).then(() => {
-    setTimeout(updateItems, 5000, url, state);
+    setTimeout(updateItems, 5000, urlItems, state);
   }).catch((error) => {
-    state.updateError(error);
+    state.setError(error);
   });
 };
 
 const getFeed = (urlFeed, state) => {
   axios.get(`https://cors-anywhere.herokuapp.com/${urlFeed}`).then((response) => {
     const feed = parseRSS(response);
-    state.updateError('');
-    state.updateUrls(urlFeed);
-    state.updateFeeds(feed);
-    state.updateInput('');
+    state.setError('');
+    state.addUrl(urlFeed);
+    state.addFeed(feed);
+    state.setInput('');
     return urlFeed;
-  }).then((url) => {
-    setTimeout(updateItems, 5000, url, state);
+  }).then((urlItems) => {
+    setTimeout(updateItems, 5000, urlItems, state);
   }).catch((error) => {
-    state.updateError(error);
-    state.updateValid('valid');
+    state.setError(error);
+    state.setValidationState('valid');
   });
 };
 
-export const submitFeed = (state) => {
+export const handleFeedForm = (state) => {
   const form = document.getElementById('form');
   form.addEventListener('submit', (event) => {
     event.preventDefault();
-    if (state.valid === 'valid') {
-      state.updateValid('loading');
+    if (state.validationState === 'valid') {
+      state.setValidationState('loading');
       const urlFeed = state.input;
       getFeed(urlFeed, state);
     }
